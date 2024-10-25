@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱心动画</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        h1 {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 36px;
+            text-align: center;
+            z-index: 2;
+            white-space: nowrap;
+        }
+        #photo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pinkboard"></canvas>
+    <img id="photo" src="path/to/your/photo.jpg" alt="Photo">
+    <h1 id="text">祝你生日快乐</h1>
+    <script>
+        (function(canvas) {
+            var context = canvas.getContext('2d');
+            var settings = {
+                particles: {
+                    length: 5000,
+                    duration: 2,
+                    velocity: 100,
+                    effect: -0.75,
+                    size: 30
+                },
+                point: { x: 0, y: 0 },
+                radius: 200,
+                particleRate: 5,
+                angle: 0,
+                tilt: 0,
+                tiltAngle: -15,
+                speed: 0.25
+            };
+
+            var particles = (function() {
+                var particles = [];
+                var length = 0;
+                var gravity = 0.075;
+                var decay = 0.92;
+
+                return {
+                    add: function(x, y, xv, yv) {
+                        if (length >= settings.particles.length) {
+                            particles.shift();
+                        } else {
+                            length++;
+                        }
+                        particles.push({
+                            x: x,
+                            y: -y,
+                            xv: xv,
+                            yv: yv,
+                            life: Math.random() * settings.particles.duration * 50
+                        });
+                    },
+                    update: function(deltaTime) {
+                        var alive = [];
+                        for (var i = 0; i < length; i++) {
+                            var p = particles[i];
+                            p.life -= deltaTime;
+                            if (p.life > 0) {
+                                alive.push(p);
+                                p.yv += p.tilt * gravity;
+                                p.x += (p.xv *= decay) * deltaTime;
+                                p.y += (p.yv *= decay) * deltaTime;
+                            }
+                        }
+                        length = alive.length;
+                        particles = alive;
+                    },
+                    draw: function(context, image) {
+                        for (var i = 0; i < length; i++) {
+                            var p = particles[i];
+                            context.globalAlpha = p.life * settings.particles.effect;
+                            context.drawImage(image, p.x, p.y, settings.particles.size, settings.particles.size);
+                        }
+                    }
+                };
+            })();
+
+            var pointOnHeart = function(t) {
+                return {
+                    x: 160 * Math.pow(Math.sin(t), 3),
+                    y: 130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t)
+                };
+            };
+
+            var render = function() {
+                var now = Date.now();
+                var deltaTime = (now - (settings.lastTime || now)) / 1000;
+                settings.lastTime = now;
+
+                // clear canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                // create new particles
+                var amount = settings.particleRate * deltaTime;
+                for (var i = 0; i < amount; i++) {
+                    var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
+                    var dir = pos.clone().length(settings.particles.velocity);
+                    particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y);
+                }
+
+                // update and draw particles
+                particles.update(deltaTime);
+                particles.draw(context, image);
+            };
+
+            // handle (re-)sizing of the canvas
+            function onResize() {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+            window.onresize = onResize;
+
+            // load image
+            var image = new Image();
+            image.src = 'path/to/your/particle.png';
+            image.onload = function() {
+                onResize();
+                render();
+                setInterval(render, 1000 / 60);
+            };
+
+            // animate text
+            function animateText() {
+                var textElement = document.getElementById('text');
+                var text = textElement.innerText;
+                textElement.innerText = '';
+                var index = 0;
+
+                function typeWriter() {
+                    if (index < text.length) {
+                        textElement.innerText += text.charAt(index);
+                        index++;
+                        setTimeout(typeWriter, 200); // 控制打字速度
+                    }
+                }
+                typeWriter();
+            }
+            animateText();
+        })(document.getElementById('pinkboard'));
+    </script>
+</body>
+</html>
