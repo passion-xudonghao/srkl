@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>致徐娜的表白</title>
+    <style>
+        /* 整体页面样式 */
+        body {
+            font-family: 'Cursive', sans-serif;
+            background-color: #000; /* 黑色背景，营造星空氛围 */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 2s; /* 淡入动画效果 */
+        }
+
+        /* 标题样式 */
+        h1 {
+            color: #e74c3c;
+            font-size: 60px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 80px;
+            position: relative;
+            z-index: 2;
+            animation: heartBeat 1.5s infinite; /* 心跳动画效果 */
+        }
+
+        /* 段落样式 */
+        p {
+            line-height: 1.8;
+            font-size: 20px;
+            margin: 20px 40px;
+            text-align: justify;
+            text-indent: 2em;
+            background-color: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
+            position: relative;
+            z-index: 2;
+        }
+
+        p:hover {
+            transform: scale(1.02); /* 鼠标悬停时放大效果 */
+        }
+
+        /* 动画关键帧定义 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes heartBeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 星空特效样式 */
+        #stars {
+            width: 100%;
+            height: 100%;
+            position: fixed; /* 修改为fixed，避免影响滚动 */
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none; /* 让星星不接收交互事件 */
+        }
+
+      .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        /* 流星特效样式 */
+      .meteor {
+            position: absolute;
+            width: 30px; /* 调整流星大小 */
+            height: 30px;
+            top: -30px; /* 调整起始位置 */
+            left: 50%; /* 从水平居中位置开始 */
+            margin-left: -15px; /* 调整水平位置 */
+            transform: rotate(-45deg);
+            animation: meteorFall linear infinite;
+            z-index: 1;
+        }
+
+        /* 流星的形状（黄色五角星） */
+      .meteor:before {
+            content: '';
+            position: absolute;
+            width: 30px; /* 调整流星的宽度 */
+            height: 30px; /* 调整流星的高度 */
+            background-color: rgba(255, 215, 0, 1); /* 黄色 */
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); /* 使用五角星形状 */
+            border-radius: 50%; /* 保证流星形状圆润 */
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); /* 光晕效果 */
+            animation: meteorGlow 3s infinite; /* 流星发光动画 */
+        }
+
+        /* 流星尾迹样式 */
+      .meteor:after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background-color: gold; /* 黄色 */
+            left: 14px; /* 调整尾迹位置，使其从流星头部开始 */
+            top: -20px; /* 调整尾迹起始位置 */
+            border-radius: 50%;
+            box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.5); /* 发光效果 */
+            animation: meteorTail 3s infinite; /* 尾迹动画 */
+        }
+
+        @keyframes meteorFall {
+            0% {
+                top: -30px;
+                left: -30px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                left: 100vw;
+                opacity: 0;
+            }
+        }
+
+        @keyframes meteorGlow {
+            0% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes meteorTail {
+            0% {
+                height: 0;
+                opacity: 0.5;
+            }
+            50% {
+                height: 100%;
+                opacity: 1;
+            }
+            100% {
+                height: 0;
+                opacity: 0.5;
+            }
+        }
+
+        /* 页面底部样式 */
+        footer {
+            margin-top: 50px;
+            font-size: 16px;
+            color: #777;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* 发光文字样式（用于突出部分内容） */
+      .glow-text {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>致徐娜</h1>
+    <div id="stars"></div> <!-- 用于生成星空 -->
+    <p>我每天晚上都彻夜难眠，总是在想，说老实话，连头发丝都在闪闪发光，你就是我的一切了。你以为我经常跟你聊天就是喜欢你？ 你以为的很对，我就是喜欢你 ，徐娜，这就是我对你的感觉。以这样的脸蛋每天生活着是什么感受，真想体验一下。我本来是要行走江湖的，但看见你我觉得可以先停一停，这都是我的心里话。徐娜！请搬进我心窝，如果你不幸福再离家出走，你一定不能想象。这是什么级别的可爱。这是什么令人躁动的恋爱现场，徐娜，这就是我对你的感觉。想起细碎温柔的好事时，刚好也想起你，你就是我的一切了。说老实话，像宇宙中粒子的共振合鸣 ，像整条银河都落在你身上，徐娜，这就是我对你的感觉。我有句话想说很久了，脑子真神奇忙的要死也要留个缝儿想你 。我有句话想说很久了，我有点怕你 因为我怕老婆 。说老实话，一眼如故，你是我的归宿。<span class="glow-text">小宝贝，被你点赞过的朋友圈 叫做甜甜圈 ，你就是我的一切了。</span>小宝贝，山崩海啸没有你根本不想逃，这都是我的心里话。你是我枕边的书 字字珍贵 句句入心 ，徐娜，这就是我对你的感觉。是寒风凛冽依旧在窗檐下叮叮咚咚的风铃。我喜欢你来自心脏 不是来自口腔 ，你一定不能想象。徐娜，人生海海，爱且期待，这都是我的心里话。说老实话，我屏住呼吸，不敢惊扰神灵。所有晦暗都留给过往，从遇见你开始，凛冬散尽，星河长眠。徐娜，你是我见过最美的景色一辈子都想收藏的风景 。小宝贝，你是藏在威廉古堡里千年的美丽，徐娜，这就是我对你的感觉。说老实话，想拥入你的怀抱 美美的撒个娇 。</p>
+    <p>我有的时候总有这样的感觉，小宝贝，我想是春天的旨意，风把你吹到了这里，怎么就会遇见了你。当有人给你发了晚霞的照片的时候 你不应该只说好看 你应该说"我也想你了" 。世间万物 唯你最入我心 ，徐娜，这就是我对你的感觉。月亮预谋了这场温柔， 心跳声回响在这宇宙 太空中。我有句话想说很久了，请搬进我心窝，如果你不幸福再离家出走。从今往后，你再也不是围绕我的星辰 你是我的整片星空 ，你一定不能想象。你是我见过最美的景色一辈子都想收藏的风景,这些感情可以说无时无刻不在折磨我。我有句话想说很久了，我们在彼此的眼中闪闪发光，就像是茫茫大海上一芥孤舟遇上一点星光。小宝贝，喜欢所有风平浪静的海面，喜欢月光撒下来的皎洁。徐娜，想起冬雪被阳光浇化，信箱里甜得淌蜜的情诗，你就是我的一切了。我有句话想说很久了，希望你的生活温柔有趣，不必太激烈，三餐四季，不必太匆忙,这些感情可以说无时无刻不在折磨我。徐娜！甜到犯规，这都是我的心里话。前方危险预警，红牌警告！小宝贝的美貌又在杀人！，这都是我的心里话。愿你的爱很长，失望很短，春天很长，寒夜很短，这都是我的心里话。小宝贝，何以解忧 唯有抱抱你 ，你就是我的一切了。说老实话，希望你的开心里有我希望你的心里有我希望你有我 ，你就是我的一切了。这种上帝建模的美貌，为什么轻易在人间展示。所有快乐的事情都是没有缘由的，包括喜欢你。徐娜，你说你长的好看我也就忍了 还偏偏长成我喜欢的样子 ，你要我怎么办 ，你一定不能想象。即便沿途处处可见迷雾、断崖，你还是要往远方去,这些感情可以说无时无刻不在折磨我。徐娜！当有人给你发了晚霞的照片的时候 你不应该只说好看 你应该说"我也想你了" ，你一定不能想象。被你点赞过的朋友圈 叫做甜甜圈 。说老实话，你猜猜我的心在那边？ 在左边？ 不不不，在你那边。 ，你就是我的一切了。<span class="glow-text">小宝贝，遇见你这位绝世大可爱，我多想让这时间慢半拍，徐娜，这就是我对你的感觉。</span>像这样的话，我给你讲一年都不会腻。</p>
+    <p>你总是给我这样的感觉，徐娜！如超级龙卷风般摧毁男孩最后一道防线的美貌，你就是我的一切了。我要加油啦 我怕我养不起你这个国宝了 ，你一定不能想象。徐娜，可爱宝贝令本老母亲又在线发疯。养一只我吧 保证很乖 ，你一定不能想象。小宝贝，想牵着你的手走遍春夏秋冬也尝过油盐酱醋 。小宝贝，本不想多依赖你 只是没有你的日子 太难熬 ，这都是我的心里话。小宝贝，一看到你我的开心就100%了 ，这都是我的心里话。我最近要换个发型 什么发型 没你不行,这些感情可以说无时无刻不在折磨我。徐娜，你说你长的好看我也就忍了 还偏偏长成我喜欢的款式 ，你要我怎么办 。今天也被小宝贝甜到方圆十里都能闻到糖果味。我有句话想说很久了，遇见你这位绝世大可爱，我多想让这时间慢半拍,这些感情可以说无时无刻不在折磨我。惊涛骇浪也要将你收藏，徐娜，这就是我对你的感觉。说老实话，你是我猝不及防的心动 也是我始料未及的惊鸿 ，你就是我的一切了。徐娜！这乱七八糟的生活啊 因为你的闯入 变得好极了,这些感情可以说无时无刻不在折磨我。小宝贝，我对另一半的要求就是 必须是你 。喜欢上你这件事 我想用一生说给你听 。我有句话想说很久了，抱歉，我想通了……我想……更喜欢你，徐娜，这就是我对你的感觉。这世间，青山灼灼星光杳杳，秋风淅淅晚风漫漫。说老实话，肩宽腿长九头身，神仙比例是我小宝贝了，你就是我的一切了。我有句话想说很久了，谈恋爱有点累我们结婚吧,这些感情可以说无时无刻不在折磨我。我有句话想说很久了，当星河都在变迁，你我却仍天各一边 但请相信，纵使万水千山 日日夜夜我对你的爱与思念从未改变 。不关心明天，不在乎所有，只对你有独钟。我有句话想说很久了，是令人心动又不敢接近的舞台精灵。徐娜，时间总是把对你最好的人留在最后 毕竟喜欢就像一阵风而爱是细水长流,这些感情可以说无时无刻不在折磨我。徐娜！我的手心里软软的 你要不要签一下 。一见钟情太肤浅日久生情太苍白别人是眉来眼去我只偷看你一眼 ，你就是我的一切了。徐娜！这是什么可以拿大赏的神仙颜值，徐娜，这就是我对你的感觉。喜怒哀乐是你 欢欣雀跃是你 你就是我心情的遥控器 。这该死的爱情又来敲门了，徐娜，这就是我对你的感觉。你要和我在一起吗？ 允许我用一枚戒指绑住你， 在法律规定下， 把余生分一半给我的那种。 。说老实话，月亮被嚼碎变成了小星星 你就藏在漫天的星光里 。开着飞机炸出小烟花，赤脚在沙上捞起一条鱼，把月亮星星变小塞在口袋里，你就是我的一切了。<span class="glow-text">徐娜！请搬进我心窝，如果你不幸福再离家出走。徐娜,一辈子那么长，没想到，我真的只喜欢你一个人。</span></p>
+    <p>徐娜, 不管现在网络多么发达 但是喜欢你这句 我还是想在你耳边对你说 。 </p>
+    <footer>
+        Made with love for Xuna.
+    </footer>
+    <script>
+        // 生成星空特效
+        const stars = document.getElementById('stars');
+        for (let i = 0; i < 300; i++) {
+            const star = document.createElement('div');
+            star.className ='star';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 3 + 2 + 's';
+            stars.appendChild(star);
+        }
+
+        // 生成流星特效
+        const meteorCount = 5;
+        for (let i = 0; i < meteorCount; i++) {
+            const meteor = document.createElement('div');
+            meteor.className ='meteor';
+            meteor.style.top = Math.random() * -30 + 'px';
+            meteor.style.left = Math.random() * 100 + '%';
+            const randomXSpeed = (Math.random() * 53 + 2) / 100; // 减慢水平速度
+            const randomYSpeed = (Math.random() * 53 + 2) / 100; // 减慢垂直速度
+            meteor.style.animation = `meteorFall ${(randomXSpeed + randomYSpeed) * 10}s linear infinite`;
+            document.body.appendChild(meteor);
+        }
+    </script>
+</body>
+
+</html>
